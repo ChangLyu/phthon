@@ -50,7 +50,7 @@ def processMerge():
         for entryTuple in entryTupleList:
             fromPage = int(entryTuple[0].get())
             toPage = int(entryTuple[1].get())
-            pdfMerger.append(filePath, pages=(fromPage-1, toPage-1))
+            pdfMerger.append(filePath, pages=(fromPage-1, toPage))
     with Path("./pdftools/pdfAssets/merged_pdf.pdf").open(mode="wb") as output_file:
         pdfMerger.write(output_file)
 
