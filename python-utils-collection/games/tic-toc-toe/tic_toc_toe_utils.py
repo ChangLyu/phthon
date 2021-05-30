@@ -10,13 +10,12 @@ def display_board(board):
 
 
 def player_input():
-    user_input = 'Wrong'
+    user_input = None
     while user_input not in ['X','O']:
         clear_output()
         user_input = input("Please pick a marker 'X' or 'O' : ")
     player1 = user_input
     player2 = 'X' if player1=='O' else 'O'
-    print('player1 is: '+player1, 'player2 is: '+player2)
     return (player1,player2)
 
 def place_marker(board, marker, position):
@@ -42,7 +41,17 @@ def choose_first():
     else:
         print('Player2 go first')
         return 'Player2'
-    
+
+def choose_first_ML():
+    result= random.randint(1,3) 
+    if result == 1:
+        print('Player go first')
+        
+        return 'Player'
+    else:
+        print('Machine go first')
+        return 'Machine'
+       
 def space_check(board, position):
     return False if (board[position]== 'X' or board[position]=='O') else True
 
@@ -64,6 +73,56 @@ def player_choice(board,player, marker):
                 print('The position you select is occupied, please select a new one')
             else:
                 return position
+            
+def copy_board(board):
+    copy_board = []
+    for i in board:
+        copy_board.append(i)
+    return copy_board
+
+def randomChoiceFromMoveList(board, list):
+    empty_list=[]
+    for i in list:
+        if space_check(board, i):
+           empty_list.append(i) 
+    if len(empty_list)!=0:
+        return random.choice(empty_list)
+    else: 
+        return None
+
+def machine_choice(board, machine_marker, player_marker):
+    # first check if machine can win in next move
+    for position in range(1,10):
+        if space_check(board, position):
+            copyed_board = copy_board(board)
+            place_marker(copyed_board, machine_marker, position)
+            if win_check(copyed_board, machine_marker):
+                return position
+    
+    # second check is user will win in next move, if yes, block it 
+    for position in range(1,10):
+        if space_check(board, position):
+            copyed_board = copy_board(board)
+            place_marker(copyed_board, player_marker, position)
+            if win_check(copyed_board, player_marker):
+                return position
+   
+    # take center if empty
+    if space_check(board, 5):
+        return 5
+     
+    # take corner if empty
+    move= randomChoiceFromMoveList(board, [1,3,7,9])
+    if move != None:
+        return move
+
+        
+    # take sides if empty
+    return randomChoiceFromMoveList(board, [2,4,6,8])
+ 
+
+
+
 
 def replay():
     play_again='Wrong'
@@ -73,51 +132,3 @@ def replay():
             print("Please input 'Y' or 'N'")
         
     return play_again == 'Y'
-
-
-
-
-print('Welcome to Tic Tac Toe!')
-play_again = True
-while play_again:
-    board = [' ']*10
-    (player1_maker,player2_maker)=player_input()
-    turn = choose_first()
-    game_on = True
-    while game_on:
-
-        display_board(board)
-        
-        if turn == 'Player1': 
-            player1_position = player_choice(board, 'Player1', player1_maker)
-            place_marker(board,player1_maker,player1_position)
-
-            if win_check(board, player1_maker):
-                display_board(board)
-                print('Congras! Player1 has won!')
-                game_on = False
-            else:
-                if full_board_check(board):
-                    display_board()
-                    print("TIE GAME")
-                    game_on = False
-                else:
-                    turn = 'Player2'
-        else:
-            player2_position = player_choice(board, 'Player2', player2_maker)
-            place_marker(board,player2_maker,player2_position)
-            if win_check(board, player2_maker):
-                display_board(board)
-                print('Congras! Player2 has won!')
-                game_on = False
-            else:
-                if full_board_check(board):
-                    display_board()
-                    print("TIE GAME")
-                    game_on = False
-                else:
-                    turn = 'Player1'
-    
-    play_again=replay()
-
-    
