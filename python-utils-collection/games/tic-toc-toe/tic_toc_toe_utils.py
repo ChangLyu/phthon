@@ -106,16 +106,14 @@ def machine_choice(board, machine_marker, player_marker):
             place_marker(copyed_board, player_marker, position)
             if win_check(copyed_board, player_marker):
                 return position
-   
-    # take center if empty
-    if space_check(board, 5):
-        return 5
-     
+    
     # take corner if empty
     move= randomChoiceFromMoveList(board, [1,3,7,9])
     if move != None:
         return move
-
+    # take center if empty
+    if space_check(board, 5):
+        return 5
         
     # take sides if empty
     return randomChoiceFromMoveList(board, [2,4,6,8])
