@@ -36,7 +36,6 @@ def choose_first():
     result= random.randint(1,3) 
     if result == 1:
         print('Player1 go first')
-        
         return 'Player1'
     else:
         print('Player2 go first')
