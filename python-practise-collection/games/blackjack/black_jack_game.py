@@ -8,16 +8,13 @@ print('Welcome to Black Jack Game!')
 deck = Deck()
 deck.shuffle()
 
-player = Player(input('Please input your name: '))
-computer = Player('Computer')
+player = Player(input('Please input your name: '), 100)
+computer = Player('Computer', 100)
 
 
 for i in range(2):
     player.add_card(deck.get_one())
     computer.add_card(deck.get_one())
-
-print(player)
-print(computer)
 
 
 def display_cards(player, computer, game_on):
@@ -48,16 +45,19 @@ def make_move(decision):
 def check_win(player, computer, player_decision):
     player_score = sum(card.value for card in player.cards)
     computer_score = sum(card.value for card in computer.cards)
-    if player_decision =='HIT':   
+    if player_decision == 'HIT':
         if player_score > 21:
-            print(f'Computer Win! Computer Score: {computer_score}, Player Score: {player_score}')
+            print(
+                f'Computer Win! Computer Score: {computer_score}, Player Score: {player_score}')
             return True
     else:
         if computer_score > 21:
-            print(f'{player.name} Win! Computer Score: {computer_score}, Player Score: {player_score}')
+            print(
+                f'{player.name} Win! Computer Score: {computer_score}, Player Score: {player_score}')
             return True
         elif computer_score > player_score:
-            print('Computer Win! Computer Score: {computer_score}, Player Score: {player_score}')
+            print(
+                'Computer Win! Computer Score: {computer_score}, Player Score: {player_score}')
             return True
     return False
 # -----------------game on ----------------
@@ -83,8 +83,8 @@ while game_on:
             display_cards(player, computer, game_on)
 
 
-# check if any of them has win
-# if yes, end game, if not, continue draw
+# add amount of money count
+# add ace rule
 
 # total money, picking betting amount
 # track of total money

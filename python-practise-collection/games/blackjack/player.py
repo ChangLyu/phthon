@@ -1,8 +1,9 @@
 
 class Player:
-    def __init__(self, name):
+    def __init__(self, name, amount):
         self.cards = []
         self.name = name
+        self.amount = amount
 
     def add_card(self, cards):
         if isinstance(cards, list):
